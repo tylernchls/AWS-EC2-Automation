@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const fs = require('fs');
 
 AWS.config.update({region: 'us-west-2'});
 AWS.config.loadFromPath('./config.json');
@@ -103,7 +104,8 @@ function createKeyPair () {
          ec2.createKeyPair(params, function(err, data) {
              if (err) { return reject(err); }
              else {
-                 console.log('key', JSON.stringify(data));
+                 console.log('key', JSON.stringify(data.KeyMaterial));
+                writeKeyToFile(data.KeyMaterial)
                  return resolve(data)
              }
          })
@@ -124,7 +126,6 @@ function createEc2 (securityGroupID, key) {
         ec2.runInstances(instanceParams, function(err, data) {
             if (err) { return reject(err); }
             else{
-                console.log("DATAAAAAA", data);  
                 return resolve(data.Instances[0].InstanceId);
             }
         });
@@ -143,14 +144,19 @@ function tagInstance (instanceId) {
         ec2.createTags(tagParams, function(err, data) {
             if (err) { return reject(err); }
             else {
-                console.log('Instance Tagged')
+                // console.log('Instance Tagged')
                 return resolve(data);
             }
         })
     })
 }
 
-
+function writeKeyToFile(keyPair) {
+    fs.writeFile('web_server_key.pem', keyPair, (err) => {  
+        if (err) throw err;
+           console.log('Key saved!');
+    });
+}
 
 
 
