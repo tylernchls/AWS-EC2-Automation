@@ -6,6 +6,12 @@ AWS.config.loadFromPath('./config.json');
 
 let ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 let vpc = null;
+let ec2Config = base64_encode('ec2-config.sh')
+
+function base64_encode(file) {
+    var bitmap = fs.readFileSync(file);
+    return new Buffer(bitmap).toString('base64');
+}
 
 describeVpcs()
 .then((paramsSecurityGroup) => {
@@ -105,7 +111,7 @@ function createKeyPair () {
              if (err) { return reject(err); }
              else {
                  console.log('key', JSON.stringify(data.KeyMaterial));
-                writeKeyToFile(data.KeyMaterial)
+                 writeKeyToFile(data.KeyMaterial)
                  return resolve(data)
              }
          })
@@ -120,7 +126,8 @@ function createEc2 (securityGroupID, key) {
             KeyName: key.KeyName,
             MinCount: 1,
             MaxCount: 1,
-            SecurityGroupIds: [securityGroupID]
+            SecurityGroupIds: [securityGroupID],
+            UserData: ec2Config
         };
         
         ec2.runInstances(instanceParams, function(err, data) {
@@ -144,7 +151,6 @@ function tagInstance (instanceId) {
         ec2.createTags(tagParams, function(err, data) {
             if (err) { return reject(err); }
             else {
-                // console.log('Instance Tagged')
                 return resolve(data);
             }
         })
