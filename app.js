@@ -6,7 +6,8 @@ AWS.config.loadFromPath('./config.json');
 
 let ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 let vpc = null;
-let ec2Config = base64_encode('ec2-config.sh')
+let ec2Config = base64_encode('ec2-config.sh'); 
+let ec2IpAddress = '';
 
 function base64_encode(file) {
     var bitmap = fs.readFileSync(file);
@@ -21,7 +22,6 @@ describeVpcs()
     return authorizeSecurityGroupIngress(data)
 })
 .then(({data, SecurityGroupId}) => {
-    console.log(SecurityGroupId)
     return SecurityGroupId
 })
 .then((SecurityGroupId) => { 
@@ -34,6 +34,12 @@ describeVpcs()
 })
 .then((InstanceId) => {
     return tagInstance(InstanceId)
+})
+.then(() => {
+    return describeInstances()
+})
+.then((ipAddress) => {
+    return getIpAddress(ipAddress)
 })
 .catch((err) => {
     console.log('Failed to create your instance', err)
@@ -94,7 +100,6 @@ function authorizeSecurityGroupIngress({paramsIngress, SecurityGroupId}) {
         ec2.authorizeSecurityGroupIngress(paramsIngress, function(err, data) {
             if (err) { return reject(err); }
             else {
-                console.log("Ingress Successfully Set", data);
                 return resolve({data, SecurityGroupId});
             }
         });
@@ -110,7 +115,6 @@ function createKeyPair () {
          ec2.createKeyPair(params, function(err, data) {
              if (err) { return reject(err); }
              else {
-                 console.log('key', JSON.stringify(data.KeyMaterial));
                  writeKeyToFile(data.KeyMaterial)
                  return resolve(data)
              }
@@ -160,10 +164,40 @@ function tagInstance (instanceId) {
 function writeKeyToFile(keyPair) {
     fs.writeFile('web_server_key.pem', keyPair, (err) => {  
         if (err) throw err;
-           console.log('Key saved!');
     });
 }
 
+function describeInstances () {
+    return new Promise((resolve, reject) => {
+        var params = {
+            DryRun: false,
+            Filters: [
+                {
+                    Name: 'instance-state-name',
+                    Values: [
+                        'running',
+                        'pending'
+                    ],
+                },
+                {
+                    Name: 'tag:Name',
+                    Values: ['Web_Server'],
+                },
+            ]
+        };
+        ec2.describeInstances(params, function(err, data) {
+            if (err) { return reject(err); }
+            else {
+                return resolve(data.Reservations[0].Instances[0].PublicIpAddress)
+            }           
+        });
+    })
+}
+
+function getIpAddress (ipAddress) {
+    ec2IpAddress = ipAddress
+    console.log('Congrats your new server is up and running with the IP of ', ec2IpAddress);
+}
 
 
 
