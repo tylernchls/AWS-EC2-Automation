@@ -29,6 +29,7 @@ Now for the fun part!!!!!!. Lets build some Infrastructure.
 4. A file named **web_server_key.pem**, containing your private key that can be used to SSH into your new instance.
 - In your terminal, run the command ```./startup.sh```
 - Upon completion, navigate to the IP Address that is provided to you. You should see the message ***Automation for the people***.
+- Navigate to the AWS console under EC2 & region US-West (Oregon). You should see your new EC2 instance running.
 
 ## Built With
 - AWS SDK for JavaScript in Node.js
