@@ -51,7 +51,6 @@ function describeInstances () {
                 let instanceId = data.Reservations[0].Instances[0].InstanceId;
                 let securityGroupId = data.Reservations[0].Instances[0].SecurityGroups[0].GroupId
                 let keyName = data.Reservations[0].Instances[0].KeyName
-
                 return resolve({instanceId, securityGroupId, keyName})
             }           
         });
@@ -67,6 +66,7 @@ function terminateInstance (instanceId) {
         ec2.terminateInstances(params, function(err, data) {
             if (err) { return reject(err); } 
             else {
+                console.log('Terminating your EC2 instance. This may take up to 1 minute.')
                 return resolve(data)
             }           
         });
@@ -79,6 +79,7 @@ function deleteSecurityGroup (securityGroupId) {
            ec2.deleteSecurityGroup(params, function(err, data) {
              if (err) { return reject(err); }
              else {
+                 console.log('Deleting the security group')
                  return resolve(data)
              }
            });
@@ -91,6 +92,7 @@ function deleteKeyPair (keyName) {
            ec2.deleteKeyPair(params, function(err, data) {
              if (err) { return reject(err); }
              else {
+                 console.log('Deleting the instances keypair')
                  return resolve(data)
              }
            });
