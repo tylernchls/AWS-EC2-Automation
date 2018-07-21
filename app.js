@@ -25,7 +25,7 @@ describeVpcs()
     return SecurityGroupId
 })
 .then((SecurityGroupId) => { 
-    return createKeyPair().then((Key) =>{
+    return createKeyPair().then((Key) => {
         return {SecurityGroupId, Key}
     })
 })
@@ -169,7 +169,7 @@ function writeKeyToFile(keyPair) {
 
 function describeInstances () {
     return new Promise((resolve, reject) => {
-        var params = {
+        let params = {
             DryRun: false,
             Filters: [
                 {
@@ -196,11 +196,8 @@ function describeInstances () {
 
 function getIpAddress (ipAddress) {
     ec2IpAddress = ipAddress
-    console.log('Congrats your new server is up and running with the IP of ', ec2IpAddress);
+    console.log('Congrats your new server is up and running with the IP of', ec2IpAddress);
 }
-
-
-
 
 
 
