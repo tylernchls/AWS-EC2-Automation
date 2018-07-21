@@ -13,7 +13,7 @@ These instructions will get you a copy of the project up and running on your loc
 2. Run the following command in your terminal ```npm install -S aws-sdk```.
 3. Rename the file **config-example.json** to **config.json** or run this command in your terminal ```cp config-example.json config-example.json```
 4. In the AWS console, navigate to IAM => Users => Security Credentials. Create a new set of credentials and copy & paste your new keys in the **config.json** file, leaving the regions default value and save the file. 
-5. Run the following command in your terminal ```chmod +x startup.sh ec2-config.sh```. This will give execution writes the the bash scripts.
+5. Run the following command in your terminal ```chmod +x startup.sh ec2-config.sh```. This will give execution rights to the bash scripts.
 
 ## Running the tests
 
