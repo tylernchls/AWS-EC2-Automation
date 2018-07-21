@@ -6,7 +6,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 - Latest version on Node.js. Run ```node -v``` to check if already installed on your machine. If not, installation instructions can be found [here](https://nodejs.org/en/download/).
-- AWS account preferably with Admin role. If you need an account, please create one [here](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start).
+- AWS account preferably with Admin role for ease of testing. If you need an account, please create one [here](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start).
 
 ### Installing
 1. Clone the repository onto your local machine, cd into the project, and open on your favorite text editor.
@@ -29,6 +29,7 @@ Now for the fun part!!!!!!. Lets build some Infrastructure.
 4. A file named **web_server_key.pem**, containing your private key that can be used to SSH into your new instance.
 - In your terminal, run the command ```./startup.sh```
 - Upon completion, navigate to the IP Address that is provided to you. You should see the message ***Automation for the people***.
+- Navigate to the AWS console under EC2 & region US-West (Oregon). You should see your new EC2 instance running.
 
 ## Built With
 - AWS SDK for JavaScript in Node.js
