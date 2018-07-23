@@ -49,13 +49,13 @@ function describeInstances () {
             if (err) { return reject(err); }
             else {
                 let instanceId = data.Reservations[0].Instances[0].InstanceId;
-                let securityGroupId = data.Reservations[0].Instances[0].SecurityGroups[0].GroupId
-                let keyName = data.Reservations[0].Instances[0].KeyName
-                return resolve({instanceId, securityGroupId, keyName})
+                let securityGroupId = data.Reservations[0].Instances[0].SecurityGroups[0].GroupId;
+                let keyName = data.Reservations[0].Instances[0].KeyName;
+                return resolve({instanceId, securityGroupId, keyName});
             }           
         });
-    })
-}
+    });
+};
 
 function terminateInstance (instanceId) {
     return new Promise((resolve, reject) => {
@@ -66,12 +66,12 @@ function terminateInstance (instanceId) {
         ec2.terminateInstances(params, function(err, data) {
             if (err) { return reject(err); } 
             else {
-                console.log('Terminating your EC2 instance. This may take up to 1 minute.')
-                return resolve(data)
+                console.log('Terminating your EC2 instance. This may take up to 1 minute.');
+                return resolve(data);
             }           
         });
-    })
-}
+    });
+};
 
 function deleteSecurityGroup (securityGroupId) {
     return new Promise((resolve, reject) => {
@@ -80,11 +80,11 @@ function deleteSecurityGroup (securityGroupId) {
              if (err) { return reject(err); }
              else {
                  console.log('Deleting the security group')
-                 return resolve(data)
+                 return resolve(data);
              }
            });
-    })
-}
+    });
+};
 
 function deleteKeyPair (keyName) {
     return new Promise((resolve, reject) => {
@@ -92,15 +92,16 @@ function deleteKeyPair (keyName) {
            ec2.deleteKeyPair(params, function(err, data) {
              if (err) { return reject(err); }
              else {
-                 console.log('Deleting the instances keypair')
-                 return resolve(data)
+                 console.log('Deleting the instances keypair');
+                 return resolve(data);
              }
            });
-    })
-}
+    });
+};
 
 function delay (time) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, time)
     })
-}
+};
+
