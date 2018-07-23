@@ -13,7 +13,7 @@ These instructions will get you a copy of the project up and running on your loc
 2. Run the following command in your terminal ```npm install -S aws-sdk```.
 3. Rename the file **config-example.json** to **config.json** or run this command in your terminal ```cp config-example.json config-example.json```
 4. In the AWS console, navigate to IAM => Users => Security Credentials. Create a new set of credentials and copy & paste your new keys in the **config.json** file, leaving the regions default value and save the file. 
-5. Run the following command in your terminal ```chmod +x startup.sh ec2-config.sh```. This will give execution rights to the bash scripts.
+5. Run the following command in your terminal ```chmod +x startup.sh ec2-config.sh teardown.sh```. This will give execution rights to the bash scripts.
 
 ## Running the tests
 
@@ -28,7 +28,7 @@ Now for the fun part!!!!!!. Lets build some Infrastructure.
 3. A new Key Pair called **WEB_SERVER**.
 4. A file named **web_server_key.pem**, containing your private key that can be used to SSH into your new instance.
 - In your terminal, run the command ```./startup.sh```
-- Upon completion, navigate to the IP Address that is provided to you. You should see the message ***Automation for the people***.
+- Upon completion, navigate to the IP Address that is provided to you. You should see the message ***Automation for the people***. Note, it could take a few seconds for the server to fully configure itself. Hit refresh in browser if you don't see the message.
 - Navigate to the AWS console under EC2 & region US-West (Oregon). You should see your new EC2 instance running.
 
 ## Built With
